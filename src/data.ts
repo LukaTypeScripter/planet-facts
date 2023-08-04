@@ -24,7 +24,38 @@ import {
     planetNeptuneInternal,
     geologyNeptune,
   } from './assets/index';
+  interface Overview {
+    content: string;
+    source: string;
+  }
   
+  interface Structure {
+    content: string;
+    source: string;
+  }
+  
+  interface Geology {
+    content: string;
+    source: string;
+  }
+  
+  interface PlanetImage {
+    planet: string;
+    internal: string;
+    geology: string;
+  }
+  
+  export interface PlanetData {
+    name: string;
+    overview: Overview;
+    structure: Structure;
+    geology: Geology;
+    rotation: string;
+    revolution: string;
+    radius: string;
+    temperature: string;
+    images: PlanetImage;
+  }
   export const data = [
     {
       "name": "Mercury",
