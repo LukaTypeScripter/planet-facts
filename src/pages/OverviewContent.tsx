@@ -1,12 +1,14 @@
 import React from 'react'
 import { PlanetData } from '../data'
 import styled from 'styled-components';
+import useMediaQuery from '../hooks/useMediaQuery';
 
 interface OverviewContentProps {
     planet: PlanetData | undefined;
   }
   
   const OverviewContent: React.FC<OverviewContentProps> = ({ planet }) => {
+    const isAboveTabletScreens = useMediaQuery("(min-width:685px)");
   return (
     <Wrapper>
         <div className='img__cont'>
@@ -14,11 +16,30 @@ interface OverviewContentProps {
         </div>
         <div className='planet__info'>
             <div className='planet__info__inside'>
-                <h1>{planet?.name}</h1>
+                {!isAboveTabletScreens && (
+                    <>
+                     <h1>{planet?.name}</h1>
                 <p className='about'>{planet?.overview.content}</p>
                 <p className='wikipedia'>
                     Source: <a href={planet?.overview.source}>Wikipedia</a>
                 </p>
+                    </>
+                )}
+                {isAboveTabletScreens && (
+                    <>
+                    <div className='info'>
+                         <h1>{planet?.name}</h1>
+                <p className='about'>{planet?.overview.content}</p>
+                <p className='wikipedia'>
+                    Source: <a href={planet?.overview.source}>Wikipedia</a>
+                </p>
+                    </div>
+                    <div>
+
+                    </div>
+                    </>
+                )}
+               
             </div>
         </div>
     </Wrapper>
@@ -35,7 +56,14 @@ export const Wrapper = styled.div`
     margin: auto;
     display: flex;
 }
-
+@media screen and (min-width: 685px) {
+    .info {
+        text-align: left;
+    text-align: initial;
+    max-width: 350px;
+    padding: initial;
+    }
+}
 .planet__imgs {
     max-width: 100%;
     margin: auto;
@@ -48,6 +76,13 @@ export const Wrapper = styled.div`
 .planet__info__inside {
     text-align: center;
     padding: 0 24px;
+    @media screen and (min-width: 685px) {
+        display: flex;
+    align-items: center;
+    grid-gap: 70px;
+    gap: 70px;
+    padding: 0 40px;
+    }
     h1 {
         font-family: antonio;
     font-weight: 500;

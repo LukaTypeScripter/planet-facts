@@ -7,12 +7,15 @@ import OverviewContent from './OverviewContent';
 import StructureContent from './StructureContent';
 import SurfaceContent from './SurfaceContent';
 import Footer from '../components/footer/Footer';
+import useMediaQuery from '../hooks/useMediaQuery';
 
 interface PlanetPageProps {
     data: PlanetData[]; 
   }
   
   const PlanetPage = ({ data }: PlanetPageProps) => {
+    const isAboveMobileScreens = useMediaQuery("(max-width:685px)");
+    const isAboveTabletScreens = useMediaQuery("(min-width:685px)");
     const { planetName } = useParams();
     const planet = data.find(item => item.name.toLowerCase() === planetName) || data.find(item => item.name === "Mercury");
 
@@ -25,30 +28,33 @@ interface PlanetPageProps {
     if (!planet) {
       return <div>Planet not found</div>;
     }
-  
+   
     return (
       <>
       <MainWrapper>
-        <div className='structure__wrapper'>
-          <p
-            className={`overview ${activeStructure === 'overview' ? 'active' : ''}`}
-            onClick={() => handleStructureClick('overview')}
-          >
-            OVERVIEW
-          </p>
-          <p
-            className={`structure ${activeStructure === 'structure' ? 'active' : ''}`}
-            onClick={() => handleStructureClick('structure')}
-          >
-            STUCTURE
-          </p>
-          <p
-            className={`surface ${activeStructure === 'surface' ? 'active' : ''}`}
-            onClick={() => handleStructureClick('surface')}
-          >
-            SURFACE
-          </p>
-        </div>
+        {isAboveMobileScreens && (
+  <div className='structure__wrapper'>
+  <p
+    className={`overview ${activeStructure === 'overview' ? 'active' : ''}`}
+    onClick={() => handleStructureClick('overview')}
+  >
+    OVERVIEW
+  </p>
+  <p
+    className={`structure ${activeStructure === 'structure' ? 'active' : ''}`}
+    onClick={() => handleStructureClick('structure')}
+  >
+    STUCTURE
+  </p>
+  <p
+    className={`surface ${activeStructure === 'surface' ? 'active' : ''}`}
+    onClick={() => handleStructureClick('surface')}
+  >
+    SURFACE
+  </p>
+</div>
+        )}
+      
         <div className='planet'>
         {activeStructure === 'overview' && <OverviewContent planet={planet} />}
       {activeStructure === 'structure' && <StructureContent planet={planet} />}

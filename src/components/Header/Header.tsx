@@ -202,11 +202,15 @@ const StyledLink = styled(Link)<{bgColor?:string,activeStructure?:string}>`
     width: 20px;
     border-radius: 50%;
     position: absolute;
-     left: auto;
+     left: -45px;
 
     background-color: ${({ bgColor }) => bgColor};
   }
-
+  @media screen and (min-width: 685px) {
+    ::before {
+      left: auto;
+    }
+  }
   ::after {
     content: url(${iconCHeveron});
     position: absolute;
