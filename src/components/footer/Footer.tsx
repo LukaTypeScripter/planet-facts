@@ -2,27 +2,30 @@
 import styled from 'styled-components'
 import { OverviewContentProps } from '../../pages/type/type'
 
+
 function Footer({planet}:OverviewContentProps) {
+
   return (
     <FooterSection>
-      <div className='section__wrapper'>
-            <div className='details__container__box'>
-              <h2>Rotation Time</h2>
-              <h3>{planet?.rotation}</h3>
-            </div>
-            <div className='details__container__box'>
-              <h2>Revolution Time</h2>
-              <h3>{planet?.revolution}</h3>
-            </div>
-            <div className='details__container__box'>
-              <h2>Radius</h2>
-              <h3>{planet?.radius}</h3>
-            </div>
-            <div className='details__container__box'>
-              <h2>Average Temp.</h2>
-              <h3>{planet?.temperature}</h3>
-            </div>
-          </div>
+        <div className='section__wrapper'>
+        <div className='details__container__box'>
+          <h2>Rotation Time</h2>
+          <h3>{planet?.rotation}</h3>
+        </div>
+        <div className='details__container__box'>
+          <h2>Revolution Time</h2>
+          <h3>{planet?.revolution}</h3>
+        </div>
+        <div className='details__container__box'>
+          <h2>Radius</h2>
+          <h3>{planet?.radius}</h3>
+        </div>
+        <div className='details__container__box'>
+          <h2>Average Temp.</h2>
+          <h3>{planet?.temperature}</h3>
+        </div>
+      </div>
+      
     </FooterSection>
   )
 }
