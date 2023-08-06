@@ -3,21 +3,21 @@ import styled from 'styled-components'
 import { iconCHeveron, iconHamburger } from '../../assets'
 import { Link } from 'react-router-dom'
 import useMediaQuery from '../../hooks/useMediaQuery'
-
+export const planetColors = {
+  Mercury: '#419db9',
+  Venus: '#eda44a',
+  Earth: '#6f2ed6',
+  Mars: '#d14e33',
+  Jupiter: '#d93b36',
+  Saturn: '#cb5020',
+  Uranus: '#1ec2a4',
+  Neptune: '#2d68f0',
+};
 function Header() {
   const isAboveMediumScreens = useMediaQuery("(min-width:684px)");
   const isAboveTabletScreens = useMediaQuery("(min-width:685px)");
   const [isHamOpen,setIsHamOpen] = useState(false)
-    const planetColors = {
-      Mercury: '#419db9',
-      Venus: '#eda44a',
-      Earth: '#6f2ed6',
-      Mars: '#d14e33',
-      Jupiter: '#d93b36',
-      Saturn: '#cb5020',
-      Uranus: '#1ec2a4',
-      Neptune: '#2d68f0',
-    };
+ 
     const [activeStructure, setActiveStructure] = useState('Mercury');
 
     const handlePlanetClick = (planet:string) => {

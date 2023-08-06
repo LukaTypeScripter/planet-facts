@@ -2,12 +2,13 @@
 import { useParams } from 'react-router-dom';
 import { PlanetData } from '../data';
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import OverviewContent from './OverviewContent';
 import StructureContent from './StructureContent';
 import SurfaceContent from './SurfaceContent';
 import Footer from '../components/footer/Footer';
 import useMediaQuery from '../hooks/useMediaQuery';
+import PlanetContext from '../contexts/Planet';
 
 interface PlanetPageProps {
     data: PlanetData[]; 
@@ -19,7 +20,7 @@ interface PlanetPageProps {
     const { planetName } = useParams();
     const planet = data.find(item => item.name.toLowerCase() === planetName) || data.find(item => item.name === "Mercury");
 
-    const [activeStructure, setActiveStructure] = useState('overview'); 
+const {setActiveStructure,activeStructure} = useContext(PlanetContext)
   
     const handleStructureClick = (structure:string) => {
       setActiveStructure(structure);

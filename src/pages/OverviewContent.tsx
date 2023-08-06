@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { PlanetData } from '../data'
 import styled from 'styled-components';
 import useMediaQuery from '../hooks/useMediaQuery';
+import PlanetContext from '../contexts/Planet';
 
 interface OverviewContentProps {
     planet: PlanetData | undefined;
@@ -9,6 +10,7 @@ interface OverviewContentProps {
   
   const OverviewContent: React.FC<OverviewContentProps> = ({ planet }) => {
     const isAboveTabletScreens = useMediaQuery("(min-width:685px)");
+    const {setActiveStructure} = useContext(PlanetContext)
   return (
     <Wrapper>
         <div className='img__cont'>
@@ -34,8 +36,19 @@ interface OverviewContentProps {
                     Source: <a href={planet?.overview.source}>Wikipedia</a>
                 </p>
                     </div>
-                    <div>
-
+                    <div className='dekstop__cont'>
+                            <div className='dekstop__wrap' onClick={() => setActiveStructure("overview")}>
+                                <span>01</span>
+                                <p>Overview</p>
+                            </div>
+                            <div className='dekstop__wrap' onClick={() => setActiveStructure('structure')}>
+                                <span>02</span>
+                                <p>INTERNAL STUCTURE</p>
+                            </div>
+                            <div className='dekstop__wrap' onClick={() => setActiveStructure('surface')}>
+                                <span>03</span>
+                                <p>SURFACE GEOLOGY</p>
+                            </div>
                     </div>
                     </>
                 )}
@@ -81,7 +94,7 @@ export const Wrapper = styled.div`
     align-items: center;
     grid-gap: 70px;
     gap: 70px;
-    padding: 0 40px;
+    padding: 0 90px;
     }
     h1 {
         font-family: antonio;
@@ -111,5 +124,33 @@ export const Wrapper = styled.div`
     bottom: -16%;
     left: 25%;
 }
+@media screen and (min-width: 685px) {
+    .dekstop__cont {
+        display: flex;
+    grid-gap: 16px;
+    gap: 16px;
+    flex-direction: column;
+    width: 100%;
+}
+.dekstop__wrap {
+    text-transform: uppercase;
+    color: #fff;
+    font-family: spartan;
+    font-weight: 700;
+    font-size: .5625rem;
+    line-height: .625rem;
+    letter-spacing: 2px;
+    padding: 8px 20px;
+    display: flex;
+    transition: all .3s ease-in;
+    border: 1px solid hsla(0,0%,100%,.2);
+    span {
+        color: hsla(0,0%,100%,.5);
+    margin-right: 15px;
+    }
+   
+}
+}
+
 `
 export default OverviewContent
