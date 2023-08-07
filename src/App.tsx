@@ -9,12 +9,9 @@ const App = () => {
     <Router>
           <Header />
          <Routes>
-          <Route  path="/" element={<></>} />
-          <Route path="/about" element={<></>} />
-          <Route path='/planet/:planetName' element={<PlanetPage data={data} />} />
-          <Route path="/contact" element={<></>} />
+         <Route path="/" element={<PlanetPage data={data} />} />
+        <Route path="/planet/:planetName" element={<PlanetPage data={data} />} />
         </Routes> 
-      
     </Router>
   );
 }

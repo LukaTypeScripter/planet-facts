@@ -1,9 +1,15 @@
-import React, { useState } from 'react'
+import { useContext, useState } from 'react'
 import styled from 'styled-components'
 import { iconCHeveron, iconHamburger } from '../../assets'
 import { Link } from 'react-router-dom'
 import useMediaQuery from '../../hooks/useMediaQuery'
-export const planetColors = {
+import PlanetContext from '../../contexts/Planet'
+type PlanetColors = {
+  [key: string]: string;
+};
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const planetColors: PlanetColors = {
   Mercury: '#419db9',
   Venus: '#eda44a',
   Earth: '#6f2ed6',
@@ -18,10 +24,10 @@ function Header() {
   const isAboveTabletScreens = useMediaQuery("(min-width:685px)");
   const [isHamOpen,setIsHamOpen] = useState(false)
  
-    const [activeStructure, setActiveStructure] = useState('Mercury');
+    const {setactivePlanet,activePlanet} = useContext(PlanetContext)
 
     const handlePlanetClick = (planet:string) => {
-      setActiveStructure(planet);
+      setactivePlanet(planet);
     };
   
   return (
@@ -33,57 +39,57 @@ function Header() {
                 <nav className='tablet__size__nav'>
                 <StyledLink
                   to='planet/mercury'
-                  activeStructure={activeStructure}
+                  activeplanet={activePlanet}
                   onClick={() => handlePlanetClick('Mercury')}
-                  bgColor={ activeStructure === "Mercury" ?planetColors['Mercury'] : ""}
+                  bgcolor={ activePlanet === "Mercury" ?planetColors['Mercury'] : ""}
                 >
                   Mercury
                 </StyledLink>
                 <StyledLink
                   to='planet/venus'
-                  activeStructure={activeStructure}
+                  activeplanet={activePlanet}
                   onClick={() => handlePlanetClick('Venus')}
-                  bgColor={ activeStructure === "Venus" ?planetColors['Venus'] : ""}
+                  bgcolor={ activePlanet === "Venus" ?planetColors['Venus'] : ""}
                 >
                   Venus
                 </StyledLink>
                 <StyledLink
                   to='planet/mars'
-                  activeStructure={activeStructure}
+                  activeplanet={activePlanet}
                   onClick={() => handlePlanetClick('Mars')}
-                  bgColor={ activeStructure === "Mars" ?planetColors['Mars'] : ""}
+                  bgcolor={ activePlanet === "Mars" ?planetColors['Mars'] : ""}
                 >
                   Mars
                 </StyledLink>
                 <StyledLink
                   to='planet/jupiter'
-                  activeStructure={activeStructure}
+                  activeplanet={activePlanet}
                   onClick={() => handlePlanetClick('Jupiter')}
-                  bgColor={ activeStructure === "Jupiter" ?planetColors['Jupiter'] : ""}
+                  bgcolor={ activePlanet === "Jupiter" ?planetColors['Jupiter'] : ""}
                 >
                   Jupiter
                 </StyledLink>
                 <StyledLink
                   to='planet/saturn'
-                  activeStructure={activeStructure}
+                  activeplanet={activePlanet}
                   onClick={() => handlePlanetClick('Saturn')}
-                  bgColor={ activeStructure === "Saturn" ?planetColors['Saturn'] : ""}
+                  bgcolor={ activePlanet === "Saturn" ?planetColors['Saturn'] : ""}
                 >
                   Saturn
                 </StyledLink>
                 <StyledLink
                   to='planet/uranus'
-                  activeStructure={activeStructure}
+                  activeplanet={activePlanet}
                   onClick={() => handlePlanetClick('Uranus')}
-                  bgColor={ activeStructure === "Uranus" ?planetColors['Uranus'] : ""}
+                  bgcolor={ activePlanet === "Uranus" ?planetColors['Uranus'] : ""}
                 >
                   Uranus
                 </StyledLink>
                 <StyledLink
                   to='planet/neptune'
-                  activeStructure={activeStructure}
+                  activeplanet={activePlanet}
                   onClick={() => handlePlanetClick('Neptune')}
-                  bgColor={ activeStructure === "Neptune" ?planetColors['Neptune'] : ""}
+                  bgcolor={ activePlanet === "Neptune" ?planetColors['Neptune'] : ""}
                 >
                   Neptune
                 </StyledLink>
@@ -97,25 +103,25 @@ function Header() {
         </button>
         {isHamOpen && (
           <nav className='Header__navigation'>
-          <StyledLink to='planet/mercury' bgColor={planetColors.Mercury}>
+          <StyledLink to='planet/mercury' bgcolor={planetColors.Mercury}>
             Mercury
           </StyledLink>
-          <StyledLink to='planet/venus' bgColor={planetColors.Venus}>
+          <StyledLink to='planet/venus' bgcolor={planetColors.Venus}>
             Venus
           </StyledLink>
-          <StyledLink to='planet/mars' bgColor={planetColors.Mars}>
+          <StyledLink to='planet/mars' bgcolor={planetColors.Mars}>
           Mars
           </StyledLink>
-          <StyledLink to='planet/jupiter' bgColor={planetColors.Jupiter}>
+          <StyledLink to='planet/jupiter' bgcolor={planetColors.Jupiter}>
           Jupiter
           </StyledLink>
-          <StyledLink to='planet/saturn' bgColor={planetColors.Saturn}>
+          <StyledLink to='planet/saturn' bgcolor={planetColors.Saturn}>
           Saturn
           </StyledLink>
-          <StyledLink to='planet/uranus' bgColor={planetColors.Uranus}>
+          <StyledLink to='planet/uranus' bgcolor={planetColors.Uranus}>
           Uranus
           </StyledLink>
-          <StyledLink to='planet/neptune' bgColor={planetColors.Neptune}>
+          <StyledLink to='planet/neptune' bgcolor={planetColors.Neptune}>
           Neptune
           </StyledLink>
           </nav>
@@ -141,8 +147,11 @@ const Headers = styled.header`
     justify-content: normal;
     padding: 33px 50px 27px;
   }
+  @media screen and (min-width: 1016px) {
+    flex-direction: row;
+    justify-content: space-between;
+  }
   .Header__text {
-    font-family: antonio;
     font-weight: 500;
     font-size: 1.75rem;
     letter-spacing: -1.05px;
@@ -179,10 +188,9 @@ const Headers = styled.header`
 `
 
 
-const StyledLink = styled(Link)<{bgColor?:string,activeStructure?:string}>`
+const StyledLink = styled(Link)<{bgcolor?:string,activeplanet?:string}>`
   text-decoration: none;
   text-transform: uppercase;
-  font-family: spartan;
   font-weight: 700;
   font-size: 1rem;
   line-height: 1.56rem;
@@ -204,7 +212,7 @@ const StyledLink = styled(Link)<{bgColor?:string,activeStructure?:string}>`
     position: absolute;
      left: -45px;
 
-    background-color: ${({ bgColor }) => bgColor};
+     background-color: ${({ bgcolor }) => bgcolor};
   }
   @media screen and (min-width: 685px) {
     ::before {
@@ -226,7 +234,7 @@ const StyledLink = styled(Link)<{bgColor?:string,activeStructure?:string}>`
     bottom: -27px;
     border-radius: 0;
      &.active::before {
-    background-color: ${({ bgColor }) => bgColor};
+    background-color: ${({ bgcolor }) => bgcolor};
   }
   
 /* .active__jupiter::before {

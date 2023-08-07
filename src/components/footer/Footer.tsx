@@ -32,11 +32,24 @@ function Footer({planet}:OverviewContentProps) {
 const FooterSection = styled.section`
       padding: 28px 24px 50px;
     width: 100%;
+    @media screen and (min-width: 685px) {
+      display: flex;
+  justify-content: center;
+  align-items: center
+    }
   .section__wrapper {
     display: grid;
     grid-gap: 8px;
     gap: 8px
+  
   }
+  @media screen and (min-width: 685px) {
+    .section__wrapper {
+      grid-template-columns: repeat(4,200px);
+    grid-gap: 11px;
+    gap: 11px;
+    }
+    }
   .details__container__box{
     border: 1px solid hsla(0,0%,100%,.2);
     display: flex;
@@ -45,6 +58,7 @@ const FooterSection = styled.section`
     padding: 10px 24px;
     text-transform: uppercase;
     width: 100%;
+   
     h2 {
     font-weight: 700;
     font-size: 0.75rem;
@@ -57,6 +71,12 @@ const FooterSection = styled.section`
     font-size: 1.25rem;
     line-height: 1.625rem;
     letter-spacing: -.75px;
+    }
+  }
+  @media screen and (min-width: 685px) {
+    .details__container__box {
+      flex-direction: column;
+      align-items: flex-start;
     }
   }
 `

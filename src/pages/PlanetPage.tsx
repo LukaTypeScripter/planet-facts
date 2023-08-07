@@ -1,14 +1,15 @@
 
-import { useParams } from 'react-router-dom';
+import {  useParams } from 'react-router-dom';
 import { PlanetData } from '../data';
 import styled from 'styled-components';
-import { useContext, useState } from 'react';
+import { useContext, useMemo } from 'react';
 import OverviewContent from './OverviewContent';
 import StructureContent from './StructureContent';
 import SurfaceContent from './SurfaceContent';
 import Footer from '../components/footer/Footer';
 import useMediaQuery from '../hooks/useMediaQuery';
 import PlanetContext from '../contexts/Planet';
+import { planetColors } from '../components/Header/Header';
 
 interface PlanetPageProps {
     data: PlanetData[]; 
@@ -16,39 +17,43 @@ interface PlanetPageProps {
   
   const PlanetPage = ({ data }: PlanetPageProps) => {
     const isAboveMobileScreens = useMediaQuery("(max-width:685px)");
-    const isAboveTabletScreens = useMediaQuery("(min-width:685px)");
     const { planetName } = useParams();
-    const planet = data.find(item => item.name.toLowerCase() === planetName) || data.find(item => item.name === "Mercury");
-
+    const defaultPlanetName = "mercury";
+  const currentPlanetName = planetName || defaultPlanetName;
+  const planet = useMemo(() => {
+    if (!planetName) {
+      return data.find(item => item.name.toLowerCase() === "mercury");
+    }
+    return data.find(item => item.name.toLowerCase() === currentPlanetName);
+  }, [data, currentPlanetName, planetName]);
 const {setActiveStructure,activeStructure} = useContext(PlanetContext)
-  
     const handleStructureClick = (structure:string) => {
       setActiveStructure(structure);
     };
-  
     if (!planet) {
       return <div>Planet not found</div>;
     }
-   
+    const activeColor = planetColors[planet.name] as string;
     return (
       <>
-      <MainWrapper>
+      <MainWrapper bgcolor={activeColor}>
         {isAboveMobileScreens && (
   <div className='structure__wrapper'>
   <p
-    className={`overview ${activeStructure === 'overview' ? 'active' : ''}`}
+    className={`overview ${activeStructure === 'overview' ? 'actives' : ''}`}
     onClick={() => handleStructureClick('overview')}
+    
   >
     OVERVIEW
   </p>
   <p
-    className={`structure ${activeStructure === 'structure' ? 'active' : ''}`}
+    className={`structure ${activeStructure === 'structure' ? 'actives' : ''}`}
     onClick={() => handleStructureClick('structure')}
   >
     STUCTURE
   </p>
   <p
-    className={`surface ${activeStructure === 'surface' ? 'active' : ''}`}
+    className={`surface ${activeStructure === 'surface' ? 'actives' : ''}`}
     onClick={() => handleStructureClick('surface')}
   >
     SURFACE
@@ -56,22 +61,40 @@ const {setActiveStructure,activeStructure} = useContext(PlanetContext)
 </div>
         )}
       
-        <div className='planet'>
-        {activeStructure === 'overview' && <OverviewContent planet={planet} />}
-      {activeStructure === 'structure' && <StructureContent planet={planet} />}
-      {activeStructure === 'surface' && <SurfaceContent planet={planet} />}
-        </div>
+      <div className='planet'>
+      {activeStructure === 'overview' &&  <OverviewContent
+    planet={planet}
+    color={activeColor}
+    activeStructure={activeStructure}
+  />}
+          {activeStructure === 'structure' &&  <StructureContent
+    planet={planet}
+    color={activeColor}
+    activeStructure={activeStructure}
+  />}
+          {activeStructure === 'surface' &&  <SurfaceContent
+    planet={planet}
+   color={activeColor}
+   activeStructure={activeStructure}
+  />}
+</div>
        
       </MainWrapper>
-      <Footer planet={planet}/>
+      <Footer planet={planet}    activeStructure={activeStructure}/>
        </>
     );
   }
   
 
 const MainWrapper
- = styled.main`
-  
+ = styled.main<{bgcolor:string}>`
+
+@media screen and (min-width: 685px) {
+  .planet {
+padding: 96px 0 100px;
+}
+}
+ 
   .structure__wrapper {
     padding: 20px 24px;
     display: flex;
@@ -80,7 +103,6 @@ const MainWrapper
       background-color: transparent;
     text-transform: uppercase;
     color: hsla(0,0%,100%,.5);
-    font-family: spartan;
     font-weight: 700;
     font-size: .5625rem;
     line-height: .625rem;
@@ -88,14 +110,14 @@ const MainWrapper
     position: relative;
     }
   }
-  .active::after {
+  .actives::after {
     content: "";
     width: 100%;
     height: 4px;
     position: absolute;
     bottom: -20px;
     left: 0;
-    background-color: #d93b36;
+    background-color: ${props => props.bgcolor};
   }
  `
 export default PlanetPage;

@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext,  useState } from "react";
 import { PlanetContextValue, initialContextValue } from "./types/Planet";
 const PlanetContext = createContext<PlanetContextValue>(initialContextValue);
 export const PlanetContextProvider = ({
@@ -8,9 +8,12 @@ export const PlanetContextProvider = ({
 }) => {
 
     const [activeStructure, setActiveStructure] = useState('overview'); 
+    const [activePlanet, setactivePlanet] = useState('Mercury');
   const value: PlanetContextValue = {
     activeStructure,
-    setActiveStructure
+    setActiveStructure,
+    activePlanet,
+    setactivePlanet
   };
  
   return <PlanetContext.Provider value={value}>{children}</PlanetContext.Provider>;
